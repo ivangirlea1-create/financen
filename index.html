@@ -1,75 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Финансовая игра</title>
-
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    .game {
-        width: 400px;
-        background: rgba(255,255,255,0.1);
-        padding: 25px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    h1 {
-        color: gold;
-    }
-
-    .info {
-        font-size: 20px;
-        margin: 15px 0;
-    }
-
-    button {
-        padding: 12px 20px;
-        margin: 8px;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    button:hover {
-        transform: scale(1.05);
-    }
-
-    .buy {
-        background: #22c55e;
-        color: white;
-    }
-
-    .sell {
-        background: #ef4444;
-        color: white;
-    }
-
-    .next {
-        background: #3b82f6;
-        color: white;
-    }
-
-    #message {
-        margin-top: 20px;
-        font-size: 18px;
-        min-height: 30px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовая игра</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -78,7 +13,8 @@
 
     <div class="info">Баланс: <span id="money">1000</span> €</div>
     <div class="info">Акции: <span id="stocks">0</span></div>
-    <div class="info">Цена акции: <span id="price">100</span> €</div>
+    <div class="info">Средняя цена покупки: <span id="averagePrice">0</span> €</div>
+    <div class="info">Текущая цена акции: <span id="price">100</span> €</div>
 
     <button class="buy" onclick="buy()">Купить акцию</button>
     <button class="sell" onclick="sell()">Продать акцию</button>
@@ -87,87 +23,7 @@
     <div id="message">Начни инвестировать!</div>
 </div>
 
-<script>
-let money = 1000;
-let stocks = 0;
-let price = 100;
-
-function update() {
-    document.getElementById("money").textContent = money;
-    document.getElementById("stocks").textContent = stocks;
-    document.getElementById("price").textContent = price;
-}
-
-function showMessage(text) {
-    document.getElementById("message").textContent = text;
-}
-
-function buy() {
-    if (money >= price) {
-        money -= price;
-        stocks++;
-        showMessage("✅ Вы купили акцию.");
-    } else {
-        showMessage("❌ Недостаточно денег.");
-    }
-    update();
-    checkWin();
-}
-
-function sell() {
-    if (stocks > 0) {
-        money += price;
-        stocks--;
-        showMessage("💰 Вы продали акцию.");
-    } else {
-        showMessage("❌ У вас нет акций.");
-    }
-    update();
-    checkWin();
-}
-
-function nextDay() {
-    // Обычное изменение цены
-    let change = Math.floor(Math.random() * 41) - 20;
-
-    // Редкое событие: примерно 5% шанс
-    if (Math.random() < 0.05) {
-        change = Math.random() < 0.5 ? 100 : -100;
-
-        if (change > 0) {
-            showMessage("🚀 Отличные новости! Цена выросла на 100 €!");
-        } else {
-            showMessage("📉 Плохие новости! Цена упала на 100 €!");
-        }
-    } else {
-        showMessage("📅 Новый день. Цена изменилась на " + change + " €");
-    }
-
-    price += change;
-
-    // Минимальная цена акции
-    if (price < 10) {
-        price = 10;
-    }
-
-    update();
-    checkWin();
-}
-
-function checkWin() {
-    if (money >= 2000) {
-        document.querySelector(".game").innerHTML = `
-            <h1>🎉 Поздравляем! 🎉</h1>
-            <h2>💶 Вы накопили 2000 €!</h2>
-            <p>Поздравляем с новой работой!</p>
-            <p>Желаем успехов, карьерного роста и больших достижений! 🚀</p>
-            <h2>💼 Удачи на новом месте!</h2>
-        `;
-    }
-}
-
-update();
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
