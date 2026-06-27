@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Финансовая игра</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .game {
+        width: 400px;
+        background: rgba(255,255,255,0.1);
+        padding: 25px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+        color: gold;
+    }
+
+    .info {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    button {
+        padding: 12px 20px;
+        margin: 8px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .buy {
+        background: #22c55e;
+        color: white;
+    }
+
+    .sell {
+        background: #ef4444;
+        color: white;
+    }
+
+    .next {
+        background: #3b82f6;
+        color: white;
+    }
+
+    #message {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+
+<div class="game">
+    <h1>💰 Финансовая игра</h1>
+
+    <div class="info">Баланс: <span id="money">1000</span> ₽</div>
+    <div class="info">Акции: <span id="stocks">0</span></div>
+    <div class="info">Цена акции: <span id="price">100</span> ₽</div>
+
+    <button class="buy" onclick="buy()">Купить акцию</button>
+    <button class="sell" onclick="sell()">Продать акцию</button>
+    <button class="next" onclick="nextDay()">Следующий день</button>
+
+    <div id="message">Начни инвестировать!</div>
+</div>
+
+<script>
+let money = 1000;
+let stocks = 0;
+let price = 100;
+
+function update() {
+    document.getElementById("money").textContent = money;
+    document.getElementById("stocks").textContent = stocks;
+    document.getElementById("price").textContent = price;
+}
+
+function buy() {
+    if (money >= price) {
+        money -= price;
+        stocks++;
+        showMessage("Вы купили акцию.");
+    } else {
+        showMessage("Недостаточно денег.");
+    }
+    update();
+}
+
+function sell() {
+    if (stocks > 0) {
+        money += price;
+        stocks--;
+        showMessage("Вы продали акцию.");
+    } else {
+        showMessage("У вас нет акций.");
+    }
+    update();
+}
+
+function nextDay() {
+    let change = Math.floor(Math.random() * 41) - 20;
+    price += change;
+
+    if (price < 10) {
+        price = 10;
+    }
+
+    showMessage("Новый день! Цена изменилась на " + change + " ₽");
+    update();
+}
+
+function showMessage(text) {
+    document.getElementById("message").textContent = text;
+}
+
+update();
+</script>
+
+</body>
+</html>
